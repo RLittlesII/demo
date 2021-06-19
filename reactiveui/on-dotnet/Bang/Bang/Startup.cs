@@ -10,7 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Bang.Data;
+using Bang.Pages;
 using MatBlazor;
+using Refit;
+using Rocket.Surgery.Airframe.Data;
+using Splat.Microsoft.Extensions.DependencyInjection;
 
 namespace Bang
 {
@@ -30,7 +34,13 @@ namespace Bang
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddMatBlazor();
-            services.AddSingleton<WeatherForecastService>();
+
+            services
+                .AddSingleton<WeatherForecastService>()
+                .AddTransient<IDuckDuckGoApiClient>(provider => RestService.For<IDuckDuckGoApiClient>("https://api.duckduckgo.com"))
+                .AddTransient<IDuckDuckGoService, DuckDuckGoService>()
+                .AddTransient<SearchViewModel>()
+                .UseMicrosoftDependencyResolver();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
