@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Bang.Data;
+using MatBlazor;
 
 namespace Bang
 {
@@ -28,6 +29,7 @@ namespace Bang
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddMatBlazor();
             services.AddSingleton<WeatherForecastService>();
         }
 
