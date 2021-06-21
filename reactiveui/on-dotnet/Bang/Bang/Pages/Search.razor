@@ -11,11 +11,16 @@
         {
             @foreach (var relatedTopic in ViewModel.SearchResults)
             {
-                <div><p>@relatedTopic.Text</p></div>
+                <div>
+                    <p>@relatedTopic.Text</p>
+                    <p>@relatedTopic.FirstUrl</p>
+                    <p>@relatedTopic.Result</p>
+                </div>
             }
         }
     </div>
 </p>
+
 @* <div class="mat-layout-grid"> *@
 @*     <div class="mat-layout-grid-inner"> *@
 @* *@
