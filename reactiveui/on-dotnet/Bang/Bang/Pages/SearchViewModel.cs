@@ -2,9 +2,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using DynamicData;
-using DynamicData.Binding;
 using ReactiveUI;
 using Rocket.Surgery.Airframe.Data;
+using Rocket.Surgery.Airframe.Data.DuckDuckGo;
 
 namespace Bang.Pages
 {
@@ -12,26 +12,38 @@ namespace Bang.Pages
     {
         private readonly IDuckDuckGoService _duckDuckGoService;
         private string _searchText;
-        private ReadOnlyObservableCollection<DuckDuckGoQueryResult> _searchResults;
+        private ReadOnlyObservableCollection<RelatedTopic> _searchResults;
 
         public SearchViewModel(IDuckDuckGoService duckDuckGoService)
         {
             _duckDuckGoService = duckDuckGoService;
 
-            SearchCommand = ReactiveCommand.CreateFromObservable<string, IChangeSet<DuckDuckGoQueryResult, string>>(ExecuteSearch);
+            SearchCommand = ReactiveCommand.CreateFromObservable<string, IChangeSet<RelatedTopic, string>>(ExecuteSearch);
 
             this.WhenAnyValue(x => x.SearchText)
                 .WhereNotNull()
                 .Select(x => x.Trim())
+                .Merge(this.WhenAnyValue(x => x.SearchText)
+                    .Where(string.IsNullOrWhiteSpace)
+                    .Skip(1))
                 .InvokeCommand(this, x => x.SearchCommand);
+
+            this.WhenAnyValue(x => x.SearchText)
+                .Where(x => x == null);
 
             SearchCommand
                 .Bind(out _searchResults)
                 .DisposeMany()
                 .Subscribe();
+
+            SearchCommand
+                .Transform(x => x)
+                .Subscribe();
         }
 
-        public ReactiveCommand<string,IChangeSet<DuckDuckGoQueryResult,string>> SearchCommand { get; }
+        public ReadOnlyObservableCollection<RelatedTopic> SearchResults => _searchResults;
+
+        public ReactiveCommand<string,IChangeSet<RelatedTopic,string>> SearchCommand { get; }
 
         public string SearchText
         {
@@ -39,7 +51,7 @@ namespace Bang.Pages
             set => this.RaiseAndSetIfChanged(ref _searchText, value);
         }
 
-        private IObservable<IChangeSet<DuckDuckGoQueryResult, string>> ExecuteSearch(string arg) =>
-            _duckDuckGoService.Query(arg);
+        private IObservable<IChangeSet<RelatedTopic, string>> ExecuteSearch(string arg) =>
+            _duckDuckGoService.Query(arg, string.IsNullOrEmpty(arg));
     }
 }

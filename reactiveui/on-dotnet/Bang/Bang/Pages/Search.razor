@@ -3,8 +3,29 @@
 @page "/Search"
 <h3>Search</h3>
 <p>
-    <MatTextField @bind-Value="@ViewModel.SearchText" Dense="true" Label="Search the interweb" TextArea="true" FullWidth="true"></MatTextField>
+    <MatTextField @bind-Value="ViewModel.SearchText" Dense="true" Label="Search the interweb" TextArea="true" FullWidth="true" />
 </p>
+<p>
+    <div>
+        @if (ViewModel.SearchResults.Any())
+        {
+            @foreach (var relatedTopic in ViewModel.SearchResults)
+            {
+                <div><p>@relatedTopic.Text</p></div>
+            }
+        }
+    </div>
+</p>
+@* <div class="mat-layout-grid"> *@
+@*     <div class="mat-layout-grid-inner"> *@
+@* *@
+@*         <CardView/> *@
+@* *@
+@*         <CardView/> *@
+@* *@
+@*         <CardView/> *@
+@*     </div> *@
+@* </div> *@
 
 <style>
     .demo-mat-card {
@@ -19,65 +40,3 @@
         margin: 0px;
     }
 </style>
-
-<div class="mat-layout-grid">
-    <div class="mat-layout-grid-inner">
-        <div class="mat-layout-grid-cell">
-            <MatCard class="demo-mat-card">
-                <MatCardContent>
-                    <MatCardMedia Wide="true" ImageUrl="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg"></MatCardMedia>
-                    <div class="demo-mat-card-content">
-                        <MatHeadline6 class="demo-mat-card-clean-margin">
-                            Our Changing Planet
-                        </MatHeadline6>
-                        <MatSubtitle2 class="demo-mat-card-clean-margin">
-                            by Kurt Wagner
-                        </MatSubtitle2>
-                    </div>
-             
-                    <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
-                        Visit ten places on our planet that are undergoing the biggest changes today.
-                    </MatBody2>
-                </MatCardContent>
-            </MatCard>
-        </div>
-        <div class="mat-layout-grid-cell">
-            <MatCard class="demo-mat-card">
-                <MatCardContent>
-                    <MatCardMedia Wide="true" ImageUrl="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg"></MatCardMedia>
-                    <div class="demo-mat-card-content">
-                        <MatHeadline6 class="demo-mat-card-clean-margin">
-                            Our Changing Planet
-                        </MatHeadline6>
-                        <MatSubtitle2 class="demo-mat-card-clean-margin">
-                            by Kurt Wagner
-                        </MatSubtitle2>
-                    </div>
-             
-                    <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
-                        Visit ten places on our planet that are undergoing the biggest changes today.
-                    </MatBody2>
-                </MatCardContent>
-            </MatCard>
-        </div>
-        <div class="mat-layout-grid-cell">
-            <MatCard class="demo-mat-card">
-                <MatCardContent>
-                    <MatCardMedia Wide="true" ImageUrl="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg"></MatCardMedia>
-                    <div class="demo-mat-card-content">
-                        <MatHeadline6 class="demo-mat-card-clean-margin">
-                            Our Changing Planet
-                        </MatHeadline6>
-                        <MatSubtitle2 class="demo-mat-card-clean-margin">
-                            by Kurt Wagner
-                        </MatSubtitle2>
-                    </div>
-             
-                    <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
-                        Visit ten places on our planet that are undergoing the biggest changes today.
-                    </MatBody2>
-                </MatCardContent>
-            </MatCard>
-        </div>
-    </div>
-</div>

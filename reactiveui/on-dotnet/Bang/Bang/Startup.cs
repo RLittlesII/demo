@@ -14,6 +14,7 @@ using Bang.Pages;
 using MatBlazor;
 using Refit;
 using Rocket.Surgery.Airframe.Data;
+using Rocket.Surgery.Airframe.Data.DuckDuckGo;
 using Splat.Microsoft.Extensions.DependencyInjection;
 
 namespace Bang
@@ -36,8 +37,11 @@ namespace Bang
             services.AddMatBlazor();
 
             services
+                .AddRefitClient<IDuckDuckGoApiClient>()
+                .ConfigureHttpClient(client => client.BaseAddress = new Uri("https://api.duckduckgo.com"));
+
+            services
                 .AddSingleton<WeatherForecastService>()
-                .AddTransient<IDuckDuckGoApiClient>(provider => RestService.For<IDuckDuckGoApiClient>("https://api.duckduckgo.com"))
                 .AddTransient<IDuckDuckGoService, DuckDuckGoService>()
                 .AddTransient<SearchViewModel>()
                 .UseMicrosoftDependencyResolver();
