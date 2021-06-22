@@ -1,20 +1,22 @@
 @inherits ReactiveComponentBase<SearchViewModel>
-@inject SearchViewModel SearchViewModel
+@inject SearchViewModel _searchViewModel
 @page "/Search"
 <h3>Search</h3>
 <p>
-    <MatTextField @bind-Value="ViewModel.SearchText" Dense="true" Label="Search the interweb" TextArea="true" FullWidth="true" />
+    <MatTextField @bind-Value="@ViewModel.SearchText" Dense="true" Label="Search the interweb" TextArea="true" FullWidth="true" Box="true" OnInput="" /> <MatButton @on-click= ></MatButton>
 </p>
 <p>
     <div>
-        @if (ViewModel.SearchResults.Any())
+        @if (@ViewModel.SearchResults.Any())
         {
             @foreach (var relatedTopic in ViewModel.SearchResults)
             {
                 <div>
+                    <p>@relatedTopic.Icon.URL</p>
                     <p>@relatedTopic.Text</p>
-                    <p>@relatedTopic.FirstUrl</p>
-                    <p>@relatedTopic.Result</p>
+                    <a href="@relatedTopic.FirstUrl">@relatedTopic.Text</a>
+                    @relatedTopic.
+
                 </div>
             }
         }
