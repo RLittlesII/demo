@@ -20,16 +20,18 @@ namespace Bang.Pages
 
             SearchCommand = ReactiveCommand.CreateFromObservable<string, IChangeSet<RelatedTopic, string>>(ExecuteSearch);
 
-            this.WhenAnyValue(x => x.SearchText)
+            var searchTextChanged =
+                this.WhenAnyValue(x => x.SearchText)
+                    .Publish()
+                    .RefCount();
+
+            searchTextChanged
                 .WhereNotNull()
                 .Select(x => x.Trim())
-                .Merge(this.WhenAnyValue(x => x.SearchText)
+                .Merge(searchTextChanged
                     .Where(string.IsNullOrWhiteSpace)
                     .Skip(1))
                 .InvokeCommand(this, x => x.SearchCommand);
-
-            this.WhenAnyValue(x => x.SearchText)
-                .Where(x => x == null);
 
             SearchCommand
                 .Bind(out _searchResults)
