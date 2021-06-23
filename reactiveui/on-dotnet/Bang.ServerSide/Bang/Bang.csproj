@@ -6,6 +6,8 @@
 
     <ItemGroup>
       <PackageReference Include="MatBlazor" Version="2.8.0" />
+      <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+      <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.7" />
       <PackageReference Include="ReactiveUI.Blazor" Version="13.3.2" />
       <PackageReference Include="Refit" Version="5.1.67" />
       <PackageReference Include="Refit.HttpClientFactory" Version="5.1.67" />
@@ -14,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\..\..\rsg\Airframe\src\Data\Data.csproj" />
+      <ProjectReference Include="..\Bang.Models\Bang.Models.csproj" />
     </ItemGroup>
 
 </Project>

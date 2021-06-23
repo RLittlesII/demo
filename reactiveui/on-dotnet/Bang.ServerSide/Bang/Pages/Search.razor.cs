@@ -15,8 +15,7 @@ namespace Bang.Pages
         {
             this.WhenAnyObservable(x => x.ViewModel.Changed)
                 .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
-                .Do(_ => StateHasChanged())
-                .Subscribe();
+                .Subscribe(_ => StateHasChanged());
         }
 
         protected override void OnInitialized()

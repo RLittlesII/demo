@@ -1,15 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Windows.Input;
 using DynamicData;
-using DynamicData.Binding;
 using ReactiveUI;
-using Rocket.Surgery.Airframe.Data;
 using Rocket.Surgery.Airframe.Data.DuckDuckGo;
 
 namespace Bang.Pages

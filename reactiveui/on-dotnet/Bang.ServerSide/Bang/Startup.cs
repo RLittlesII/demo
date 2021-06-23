@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Bang.Data;
 using Bang.Pages;
 using MatBlazor;
+using Microsoft.AspNetCore.ResponseCompression;
 using ReactiveUI;
 using Refit;
 using Rocket.Surgery.Airframe.Data;
@@ -37,10 +38,18 @@ namespace Bang
             var wasmScheduler = new WasmScheduler();
             RxApp.MainThreadScheduler = wasmScheduler;
             RxApp.TaskpoolScheduler = wasmScheduler;
+            
+            services.AddSignalR();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddMatBlazor();
 
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
+            
             services
                 .AddRefitClient<IDuckDuckGoApiClient>()
                 .ConfigureHttpClient(client => client.BaseAddress = new Uri("https://api.duckduckgo.com"));
@@ -49,12 +58,15 @@ namespace Bang
                 .AddSingleton<WeatherForecastService>()
                 .AddTransient<IDuckDuckGoService, DuckDuckGoService>()
                 .AddTransient<SearchViewModel>()
+                .AddTransient<CardViewModel>()
                 .UseMicrosoftDependencyResolver();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

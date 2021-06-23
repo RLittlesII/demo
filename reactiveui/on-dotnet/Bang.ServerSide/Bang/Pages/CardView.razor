@@ -1,3 +1,8 @@
+@inherits ReactiveComponentBase<CardViewModel>
+@page "/news"
+@inject CardViewModel _cardViewModel
+@using Microsoft.AspNetCore.SignalR.Client;
+
 <div class="mat-layout-grid-cell">
     <MatCard class="demo-mat-card">
         <MatCardContent>
