@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Bang.Data;
 using Bang.Pages;
 using MatBlazor;
+using ReactiveUI;
 using Refit;
 using Rocket.Surgery.Airframe.Data;
 using Rocket.Surgery.Airframe.Data.DuckDuckGo;
@@ -32,6 +34,9 @@ namespace Bang
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var wasmScheduler = new WasmScheduler();
+            RxApp.MainThreadScheduler = wasmScheduler;
+            RxApp.TaskpoolScheduler = wasmScheduler;
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddMatBlazor();

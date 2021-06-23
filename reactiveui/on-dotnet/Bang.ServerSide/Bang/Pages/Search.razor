@@ -17,7 +17,7 @@
                 <MatListItem>
                     <MatListItemText>
                         <MatListItemPrimaryText><a href="@relatedTopic.FirstUrl">@relatedTopic.Text</a></MatListItemPrimaryText>
-                        <MatListItemSecondaryText>Second-line text</MatListItemSecondaryText>
+                        <MatListItemSecondaryText></MatListItemSecondaryText>
                     </MatListItemText>
                     <div>
                         @if (@relatedTopic.Topics != null && @relatedTopic.Topics.Any())
@@ -33,6 +33,10 @@
                 </MatListItem>
             }
         </MatList>
+    }
+    else
+    {
+        <div></div>
     }
 </div>
 <div class="mat-layout-grid">

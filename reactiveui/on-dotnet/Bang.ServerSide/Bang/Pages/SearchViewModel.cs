@@ -24,19 +24,20 @@ namespace Bang.Pages
         {
             _duckDuckGoService = duckDuckGoService;
 
-            var empty =
-                this.WhenAnyValue(x => x.SearchText)
-                    .Where(string.IsNullOrEmpty)
-                    .Skip(1)
-                    .Select(_ => Enumerable.Empty<RelatedTopic>())
-                    .ToObservableChangeSet(x => x.FirstUrl);
+            this.WhenAnyValue(x => x.SearchText)
+                .Do(_ => { })
+                .Where(x => string.IsNullOrEmpty(x))
+                .Skip(1)
+                .Select(_ => Enumerable.Empty<RelatedTopic>())
+                .ToObservableChangeSet(x => x.FirstUrl)
+                .DefaultIfEmpty()
+                .ToCollection()
+                .BindTo(this, x => x.SearchResults);
 
             this.WhenAnyValue(x => x.SearchText)
-                .WhereNotNull()
-                .Throttle(TimeSpan.FromMilliseconds(500))
+                .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => x.Trim())
                 .SelectMany(ExecuteSearch)
-                .Merge(empty)
                 .ToCollection()
                 .BindTo(this, x => x.SearchResults);
         }

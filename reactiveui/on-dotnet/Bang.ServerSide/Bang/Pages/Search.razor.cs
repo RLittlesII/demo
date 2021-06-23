@@ -14,6 +14,7 @@ namespace Bang.Pages
         public Search()
         {
             this.WhenAnyObservable(x => x.ViewModel.Changed)
+                .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
                 .Do(_ => StateHasChanged())
                 .Subscribe();
         }
