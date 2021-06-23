@@ -24,22 +24,22 @@ namespace Bang.Pages
         {
             _duckDuckGoService = duckDuckGoService;
 
+            var empty =
+                this.WhenAnyValue(x => x.SearchText)
+                    .Where(string.IsNullOrEmpty)
+                    .Skip(1)
+                    .Select(_ => Enumerable.Empty<RelatedTopic>())
+                    .ToObservableChangeSet(x => x.FirstUrl);
+
             this.WhenAnyValue(x => x.SearchText)
                 .WhereNotNull()
                 .Throttle(TimeSpan.FromMilliseconds(500))
                 .Select(x => x.Trim())
-                .Merge(this.WhenAnyValue(x => x.SearchText).Where(string.IsNullOrEmpty).Skip(1))
                 .SelectMany(ExecuteSearch)
+                .Merge(empty)
                 .ToCollection()
                 .BindTo(this, x => x.SearchResults);
-
-            ChangeState = ReactiveCommand.Create<IChangeSet<RelatedTopic,string>>(_ => { });
-            SearchCommand = ReactiveCommand.CreateFromObservable<string, IChangeSet<RelatedTopic,string>>(ExecuteSearch);
         }
-
-        public ReactiveCommand<string, IChangeSet<RelatedTopic, string>> SearchCommand { get; set; }
-
-        public ReactiveCommand<IChangeSet<RelatedTopic,string>, Unit> ChangeState { get; set; }
 
         public IEnumerable<RelatedTopic> SearchResults
         {

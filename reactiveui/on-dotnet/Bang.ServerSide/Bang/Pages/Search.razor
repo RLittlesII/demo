@@ -11,23 +11,28 @@
 <div>
     @if (ViewModel.SearchResults.Any())
     {
-        @foreach (var relatedTopic in ViewModel.SearchResults)
-        {
-            <div>
-                <p>@relatedTopic.Icon.URL</p>
-                <p>@relatedTopic.Name</p>
-                <a href="@relatedTopic.FirstUrl">@relatedTopic.Text</a>
-                @if (@relatedTopic.Topics != null && @relatedTopic.Topics.Any())
-                {
-                    <ul>
-                        @foreach (var topic in relatedTopic.Topics)
+        <MatList SingleSelection="true" TwoLine="true">
+            @foreach (var relatedTopic in ViewModel.SearchResults)
+            {
+                <MatListItem>
+                    <MatListItemText>
+                        <MatListItemPrimaryText><a href="@relatedTopic.FirstUrl">@relatedTopic.Text</a></MatListItemPrimaryText>
+                        <MatListItemSecondaryText>Second-line text</MatListItemSecondaryText>
+                    </MatListItemText>
+                    <div>
+                        @if (@relatedTopic.Topics != null && @relatedTopic.Topics.Any())
                         {
-                            <li><a href="@topic.FirstUrl">@topic.Text</a></li>
+                            <ul>
+                                @foreach (var topic in relatedTopic.Topics)
+                                {
+                                    <li><a href="@topic.FirstUrl">@topic.Text</a></li>
+                                }
+                            </ul>
                         }
-                    </ul>
-                }
-            </div>
-        }
+                    </div>
+                </MatListItem>
+            }
+        </MatList>
     }
 </div>
 <div class="mat-layout-grid">
