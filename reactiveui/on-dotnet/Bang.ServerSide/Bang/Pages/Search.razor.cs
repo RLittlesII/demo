@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
 using ReactiveUI;
 using Splat;
 
@@ -11,15 +13,8 @@ namespace Bang.Pages
     {
         public Search()
         {
-            this.WhenAnyValue(x => x._searchViewModel.)
-                .Subscribe()
-            this.WhenAnyValue(x => x._searchViewModel.SearchResults)
-                .Where(x => x != null)
-                .Select(async _ => await InvokeAsync(StateHasChanged))
-                .Subscribe();
-
-            this.WhenAnyObservable(x => x.ViewModel.ChangeState)
-                .Select(async _ => await InvokeAsync(StateHasChanged))
+            this.WhenAnyObservable(x => x.ViewModel.Changed)
+                .Do(_ => StateHasChanged())
                 .Subscribe();
         }
 
