@@ -2,7 +2,6 @@ using System.Reactive;
 using Microsoft.AspNetCore.SignalR.Client;
 using Models;
 using ReactiveUI;
-using Rocket.Surgery.Airframe.Data;
 
 namespace Bang.Pages
 {

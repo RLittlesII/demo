@@ -1,3 +1,4 @@
+@using System.Reactive.Threading.Tasks
 @inherits ReactiveComponentBase<SearchViewModel>
 @inject SearchViewModel _searchViewModel
 @page "/Search"
@@ -8,6 +9,9 @@
        placeholder="Search the interweb"
        @bind-value="ViewModel.SearchText"
        @bind-value:event="oninput" />
+<button class="btn btn-info" @onclick="Clear">
+    Clear
+</button>
 <div>
     @if (ViewModel.SearchResults.Any())
     {
@@ -49,6 +53,11 @@
         <CardView/>
     </div>
 </div>
+
+@code
+{
+    public async Task Clear() => await ViewModel.Clear.Execute().ToTask();
+}
 
 <style>
     .demo-mat-card {

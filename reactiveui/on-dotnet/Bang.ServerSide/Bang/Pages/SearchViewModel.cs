@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using DynamicData;
 using ReactiveUI;
@@ -34,7 +35,14 @@ namespace Bang.Pages
                 .SelectMany(ExecuteSearch)
                 .ToCollection()
                 .BindTo(this, x => x.SearchResults);
+
+            Clear = ReactiveCommand.Create(() => { });
+
+            Clear
+                .Subscribe(_ => SearchText = string.Empty);
         }
+
+        public ReactiveCommand<Unit,Unit> Clear { get; set; }
 
         public IEnumerable<RelatedTopic> SearchResults
         {
